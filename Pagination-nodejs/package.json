@@ -1,0 +1,13 @@
+{
+  "type": "module",
+  "name": "pagination-demo",
+  "version": "1.0.0",
+  "description": "A Node.js and Express pagination demo",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
