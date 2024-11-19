@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagination Example</title>
+</head>
+<body>
+  <h1>Paginated Items</h1>
+  <ul id="items"></ul>
+  <button id="prev" disabled>Previous</button>
+  <button id="next">Next</button>
+
+  <script>
+    let currentPage = 1;
+
+    async function fetchData(page) {
+      try {
+        const response = await fetch(`/api/items?page=${page}`);
+        const result = await response.json();
+
+        // Display data
+        const itemsList = document.getElementById('items');
+        itemsList.innerHTML = '';
+        result.data.forEach(item => {
+          const li = document.createElement('li');
+          li.textContent = `${item.id}: ${item.name}`;
+          itemsList.appendChild(li);
+        });
+
+        // Update pagination buttons
+        document.getElementById('prev').disabled = page === 1;
+        document.getElementById('next').disabled = page === result.totalPages;
+
+        currentPage = page;
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    // Add event listeners for buttons
+    document.getElementById('prev').addEventListener('click', () => fetchData(currentPage - 1));
+    document.getElementById('next').addEventListener('click', () => fetchData(currentPage + 1));
+
+    // Initial fetch
+    fetchData(currentPage);
+  </script>
+</body>
+</html>
+
